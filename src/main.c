@@ -4,6 +4,8 @@ bool alarme = false;
 bool posicao_js = false;
 bool ledverdestatus = false;
 
+MQTT_CLIENT_T *global_mqtt_state;
+
 static MQTT_CLIENT_T* mqtt_client_init(void) {
     MQTT_CLIENT_T *state = calloc(1, sizeof(MQTT_CLIENT_T));
     if (!state) {
@@ -28,9 +30,13 @@ int main() {
         return 1;
     }
 
-    MQTT_CLIENT_T *state = mqtt_client_init();
-    run_dns_lookup(state);
-    mqtt_run_test(state);
+    global_mqtt_state = mqtt_client_init();
+    if (!global_mqtt_state) {
+        return 1;
+    }
+    
+    run_dns_lookup(global_mqtt_state);
+    mqtt_run_test(global_mqtt_state);
 
     cyw43_arch_deinit();
     return 0;

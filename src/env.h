@@ -1,6 +1,6 @@
 /* WIFI */
-#define WIFI_SSID "SSID"
-#define WIFI_PASSWORD "PASSWORD"
+#define WIFI_SSID "Lemos"
+#define WIFI_PASSWORD "a1b2c3d4@2!3500"
 /* END*/
 
 /* MQTT */

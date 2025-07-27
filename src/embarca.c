@@ -1,17 +1,18 @@
 #include "main.h"
 
+extern MQTT_CLIENT_T *global_mqtt_state;
+
 static uint32_t last_debounce_time[3] = {0, 0, 0};
 uint adc_x_raw;
 uint adc_y_raw;
 uint brightness = 0;
 bool increasing = true; 
 
-
 static const char *gpio_irq_str[] = {
-        "LEVEL_LOW",  // 0x1
-        "LEVEL_HIGH", // 0x2
-        "EDGE_FALL",  // 0x4
-        "EDGE_RISE"   // 0x8
+    "LEVEL_LOW",  // 0x1
+    "LEVEL_HIGH", // 0x2
+    "EDGE_FALL",  // 0x4
+    "EDGE_RISE"   // 0x8
 };
 
 void pinos_start()
@@ -33,7 +34,6 @@ void pinos_start()
     pwm_init(slice_num, &config, true);
     slice_num = pwm_gpio_to_slice_num(LED_PIN_G);
     pwm_init(slice_num, &config, true);
-    
 
     gpio_init(BUTTON6_PIN);
     gpio_set_dir(BUTTON6_PIN, GPIO_IN);
@@ -74,25 +74,35 @@ void gpio_event_string(char *buf, uint32_t events) {
 
 void gpio5_callback(uint gpio, uint32_t events) {
     uint32_t now = to_ms_since_boot(get_absolute_time());
+    char message_buffer[BUFFER_SIZE]; // Buffer para a mensagem MQTT
 
-    if (gpio == 5 && (now - last_debounce_time[0] > DEBOUNCE_DELAY_MS)) 
+    if (gpio == BUTTON5_PIN && (now - last_debounce_time[0] > DEBOUNCE_DELAY_MS)) 
     {
         last_debounce_time[0] = now;
         ledverdestatus  = !ledverdestatus;
+        DEBUG_printf("Botao A pressionado!\n");
+        snprintf(message_buffer, BUFFER_SIZE, "Botao A pressionado");
+        if (global_mqtt_state && global_mqtt_state->mqtt_client) {
+            mqtt_publish(global_mqtt_state->mqtt_client, "pico_w/button", message_buffer, strlen(message_buffer), 0, 0, mqtt_pub_request_cb, global_mqtt_state);
+        } else {
+            DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao A.\n");
+        }
     }
-    if (gpio == 6 && (now - last_debounce_time[1] > DEBOUNCE_DELAY_MS)) 
+    if (gpio == BUTTON6_PIN && (now - last_debounce_time[1] > DEBOUNCE_DELAY_MS)) 
     {
-
+        last_debounce_time[1] = now;
+        DEBUG_printf("Botao B pressionado!\n");
+        snprintf(message_buffer, BUFFER_SIZE, "Botao B pressionado");
+        if (global_mqtt_state && global_mqtt_state->mqtt_client) {
+            mqtt_publish(global_mqtt_state->mqtt_client, "pico_w/button", message_buffer, strlen(message_buffer), 0, 0, mqtt_pub_request_cb, global_mqtt_state);
+        } else {
+            DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao B.\n");
+        }
     }
-    if (gpio == 22 && (now - last_debounce_time[2] > DEBOUNCE_DELAY_MS)) 
+    if (gpio == BUTTONJS_PIN && (now - last_debounce_time[2] > DEBOUNCE_DELAY_MS)) 
     {
-       
+        last_debounce_time[2] = now;
     }
-}
-
-void js()
-{
-
 }
 
 void setup_pwm(uint gpio_pin) {

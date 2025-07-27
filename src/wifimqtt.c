@@ -119,7 +119,7 @@ err_t mqtt_test_connect(MQTT_CLIENT_T *state)
 {
     struct mqtt_connect_client_info_t ci = {0};
     ci.client_id = "PicoW";
-   
+    
     return mqtt_client_connect(state->mqtt_client, &(state->remote_addr), MQTT_SERVER_PORT, mqtt_connection_cb, state, &ci);
 }
 
@@ -137,7 +137,7 @@ void mqtt_run_test(MQTT_CLIENT_T *state)
     if (mqtt_test_connect(state) == ERR_OK)
     {
         mqtt_set_inpub_callback(state->mqtt_client, mqtt_pub_start_cb, mqtt_pub_data_cb, NULL);
-        mqtt_sub_unsub(state->mqtt_client, "pico_w/recv", 0, mqtt_sub_request_cb, NULL, 1);
+        mqtt_sub_unsub(state->mqtt_client, "pico_w/led", 0, mqtt_sub_request_cb, NULL, 1);
 
         while (1)
         {

@@ -17,15 +17,21 @@
 #include "env.h"
 
 /* MACROS PI PICO */
+#define BUTTON5_PIN 5
+#define BUTTON6_PIN 6
+
 #define LED_PIN_G 11
 #define LED_PIN_B 12
 #define LED_PIN_R 13
-#define BUTTON5_PIN 5
-#define BUTTON6_PIN 6
+
 #define PWM_STEPS 2000
 #define BUTTONJS_PIN 22
 #define DEBOUNCE_DELAY_MS 700
-#define FADE_STEP_DELAY (100) 
+#define FADE_STEP_DELAY (100)
+
+// Adicionado para depuração e tamanho do buffer
+#define DEBUG_printf printf
+#define BUFFER_SIZE 256
 /* END */
 
 /*VARIAVEIS*/
@@ -34,6 +40,7 @@ extern bool posicao_js;
 extern bool ledverdestatus;
 extern uint adc_x_raw;
 extern uint adc_y_raw;
+
 typedef struct MQTT_CLIENT_T_ {
     ip_addr_t remote_addr;
     mqtt_client_t *mqtt_client;
@@ -41,6 +48,9 @@ typedef struct MQTT_CLIENT_T_ {
     u32_t counter;
     u32_t reconnect;
 } MQTT_CLIENT_T;
+
+// Variável global para o estado do cliente MQTT
+extern MQTT_CLIENT_T *global_mqtt_state;
 /* END */
 
 /* FUNÇOES */
@@ -54,4 +64,7 @@ void js();
 void setup_pwm(uint gpio_pin);
 void update_pwm(uint gpio_pin);
 void pwm_led(uint gpio_pin, uint brilho);
+
+// Declarado aqui para ser acessível globalmente
+void mqtt_pub_request_cb(void *arg, err_t err);
 /* END */
