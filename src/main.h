@@ -38,9 +38,6 @@
 #define I2C_SCL_PIN 15
 /* END */
 
-/*VARIAVEIS*/
-extern bool ledverdestatus;
-
 typedef struct MQTT_CLIENT_T_ {
     ip_addr_t remote_addr;
     mqtt_client_t *mqtt_client;
@@ -63,8 +60,6 @@ static MQTT_CLIENT_T* mqtt_client_init(void);
 void run_dns_lookup(MQTT_CLIENT_T *state);
 void mqtt_run_test(MQTT_CLIENT_T *state);
 void gpio_event_string(char *buf, uint32_t events);
-void setup_pwm(uint gpio_pin);
-void update_pwm(uint gpio_pin);
 void pwm_led(uint gpio_pin, uint brilho);
 
 // Declarado aqui para ser acessível globalmente

@@ -72,7 +72,6 @@ void gpio5_callback(uint gpio, uint32_t events) {
     if (gpio == BUTTON5_PIN && (now - last_debounce_time[0] > DEBOUNCE_DELAY_MS)) 
     {
         last_debounce_time[0] = now;
-        ledverdestatus  = !ledverdestatus;
         DEBUG_printf("Botao A pressionado!\n");
         oled_display_send("Botao A!");
         snprintf(message_buffer, BUFFER_SIZE, "Botao A pressionado");
@@ -94,34 +93,6 @@ void gpio5_callback(uint gpio, uint32_t events) {
         } else {
             oled_display_send("Falha botao B!");
             DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao B.\n");
-        }
-    }
-}
-
-void setup_pwm(uint gpio_pin) {
-    gpio_set_function(gpio_pin, GPIO_FUNC_PWM);
-    uint slice_num = pwm_gpio_to_slice_num(gpio_pin);
-    pwm_config config = pwm_get_default_config();
-    pwm_config_set_clkdiv(&config, 4.0f);  
-    pwm_init(slice_num, &config, true);
-}
-
-void update_pwm(uint gpio_pin) {
-    pwm_set_gpio_level(LED_PIN_R, brightness);
-    printf("brilho_led_vermelho: %u\n",brightness);
-    if (increasing) 
-    {
-        brightness = brightness+400;
-        if (brightness >= PWM_STEPS) 
-        {
-            increasing = false; 
-        }
-    }
-    else 
-    {
-        brightness = brightness-400;
-        if (brightness == 0) {
-            increasing = true; 
         }
     }
 }

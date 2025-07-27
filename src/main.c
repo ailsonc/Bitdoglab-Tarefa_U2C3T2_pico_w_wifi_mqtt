@@ -1,7 +1,5 @@
 #include "main.h"
 
-bool ledverdestatus = false;
-
 // Variável global para o estado do cliente MQTT
 MQTT_CLIENT_T *global_mqtt_state;
 

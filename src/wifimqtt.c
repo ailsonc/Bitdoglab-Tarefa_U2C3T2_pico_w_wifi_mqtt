@@ -82,7 +82,6 @@ static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection
     }
     else
     {
-        pwm_led(LED_PIN_R, 0);
         oled_display_send("MQTT Desconctado!");
         DEBUG_printf("MQTT connection failed: %d\n", status);
     }
@@ -149,10 +148,6 @@ void mqtt_run_test(MQTT_CLIENT_T *state)
             if (mqtt_client_is_connected(state->mqtt_client))
             {
                 mqtt_test_publish(state);
-                if (ledverdestatus == 1)
-                {
-                    pwm_led(LED_PIN_G, 0);
-                }
                 static uint64_t last_time_pwm = 0;
                 uint64_t current_time = to_ms_since_boot(get_absolute_time());
                 if (current_time - last_time_pwm >= FADE_STEP_DELAY) // a cada 100ms vai aumentar o brilho em 400
