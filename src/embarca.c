@@ -3,8 +3,6 @@
 extern MQTT_CLIENT_T *global_mqtt_state;
 
 static uint32_t last_debounce_time[3] = {0, 0, 0};
-uint adc_x_raw;
-uint adc_y_raw;
 uint brightness = 0;
 bool increasing = true; 
 
@@ -44,11 +42,6 @@ void pinos_start()
     gpio_set_dir(BUTTON5_PIN, GPIO_IN);
     gpio_pull_up(BUTTON5_PIN);
     gpio_set_irq_enabled_with_callback(BUTTON5_PIN,GPIO_IRQ_EDGE_FALL, true, &gpio5_callback);
-
-    gpio_init(BUTTONJS_PIN);
-    gpio_set_dir(BUTTONJS_PIN, GPIO_IN);
-    gpio_pull_up(BUTTONJS_PIN);
-    gpio_set_irq_enabled_with_callback(BUTTONJS_PIN,GPIO_IRQ_EDGE_FALL, true, &gpio5_callback);
 }
 
 void gpio_event_string(char *buf, uint32_t events) {
@@ -102,10 +95,6 @@ void gpio5_callback(uint gpio, uint32_t events) {
             oled_display_send("Falha botao B!");
             DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao B.\n");
         }
-    }
-    if (gpio == BUTTONJS_PIN && (now - last_debounce_time[2] > DEBOUNCE_DELAY_MS)) 
-    {
-        last_debounce_time[2] = now;
     }
 }
 

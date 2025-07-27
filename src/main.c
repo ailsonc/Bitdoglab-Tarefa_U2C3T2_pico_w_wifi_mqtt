@@ -1,7 +1,5 @@
 #include "main.h"
 
-bool alarme = false;
-bool posicao_js = false;
 bool ledverdestatus = false;
 
 // Variável global para o estado do cliente MQTT

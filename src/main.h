@@ -26,7 +26,6 @@
 #define LED_PIN_R 13
 
 #define PWM_STEPS 2000
-#define BUTTONJS_PIN 22
 #define DEBOUNCE_DELAY_MS 700
 #define FADE_STEP_DELAY (100)
 
@@ -40,11 +39,7 @@
 /* END */
 
 /*VARIAVEIS*/
-extern bool alarme;
-extern bool posicao_js;
 extern bool ledverdestatus;
-extern uint adc_x_raw;
-extern uint adc_y_raw;
 
 typedef struct MQTT_CLIENT_T_ {
     ip_addr_t remote_addr;
@@ -68,7 +63,6 @@ static MQTT_CLIENT_T* mqtt_client_init(void);
 void run_dns_lookup(MQTT_CLIENT_T *state);
 void mqtt_run_test(MQTT_CLIENT_T *state);
 void gpio_event_string(char *buf, uint32_t events);
-void js();
 void setup_pwm(uint gpio_pin);
 void update_pwm(uint gpio_pin);
 void pwm_led(uint gpio_pin, uint brilho);
