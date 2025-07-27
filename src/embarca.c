@@ -81,10 +81,12 @@ void gpio5_callback(uint gpio, uint32_t events) {
         last_debounce_time[0] = now;
         ledverdestatus  = !ledverdestatus;
         DEBUG_printf("Botao A pressionado!\n");
+        oled_display_send("Botao A!");
         snprintf(message_buffer, BUFFER_SIZE, "Botao A pressionado");
         if (global_mqtt_state && global_mqtt_state->mqtt_client) {
             mqtt_publish(global_mqtt_state->mqtt_client, "pico_w/button", message_buffer, strlen(message_buffer), 0, 0, mqtt_pub_request_cb, global_mqtt_state);
         } else {
+            oled_display_send("Falha botao A!");
             DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao A.\n");
         }
     }
@@ -92,10 +94,12 @@ void gpio5_callback(uint gpio, uint32_t events) {
     {
         last_debounce_time[1] = now;
         DEBUG_printf("Botao B pressionado!\n");
+        oled_display_send("Botao B!");
         snprintf(message_buffer, BUFFER_SIZE, "Botao B pressionado");
         if (global_mqtt_state && global_mqtt_state->mqtt_client) {
             mqtt_publish(global_mqtt_state->mqtt_client, "pico_w/button", message_buffer, strlen(message_buffer), 0, 0, mqtt_pub_request_cb, global_mqtt_state);
         } else {
+            oled_display_send("Falha botao B!");
             DEBUG_printf("Erro: Cliente MQTT nao inicializado para Botao B.\n");
         }
     }

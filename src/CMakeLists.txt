@@ -42,6 +42,7 @@ if (PICO_CYW43_SUPPORTED) # set by BOARD=pico-w
         message("Skipping build as support is not available")
     else()
         add_executable(wifimqtt
+        inc/ssd1306_i2c.c
         wifimqtt.c
         embarca.c
         main.c
@@ -70,6 +71,7 @@ if (PICO_CYW43_SUPPORTED) # set by BOARD=pico-w
             hardware_pwm
             hardware_gpio
             hardware_adc
+            hardware_i2c
         )
 
         pico_add_extra_outputs(wifimqtt

@@ -40,6 +40,9 @@
         "main.h": "c",
         "altcp_tls.h": "c",
         "time.h": "c",
-        "altcp_tcp.h": "c"
+        "altcp_tcp.h": "c",
+        "i2c.h": "c",
+        "mqtt_priv.h": "c",
+        "ssd1306.h": "c"
     }
 }

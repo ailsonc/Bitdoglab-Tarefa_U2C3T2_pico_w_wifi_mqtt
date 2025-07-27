@@ -58,10 +58,12 @@ static void mqtt_pub_data_cb(void *arg, const u8_t *data, u16_t len, u8_t flags)
 
         if (strcmp(buffer, "acender") == 0)
         {
+            oled_display_send("LED LIGADO!");
             pwm_led(LED_PIN_B, 3000);
         }
         else if (strcmp(buffer, "apagar") == 0)
         {
+            oled_display_send("LED DESLIGADO!");
             pwm_led(LED_PIN_B, 0);
         }
     }
@@ -75,11 +77,13 @@ static void mqtt_connection_cb(mqtt_client_t *client, void *arg, mqtt_connection
 {
     if (status == MQTT_CONNECT_ACCEPTED)
     {
+        oled_display_send("MQTT Conectado!");
         DEBUG_printf("MQTT connected.\n");
     }
     else
     {
         pwm_led(LED_PIN_R, 0);
+        oled_display_send("MQTT Desconctado!");
         DEBUG_printf("MQTT connection failed: %d\n", status);
     }
 }

@@ -15,7 +15,8 @@
 #include "lwip/apps/mqtt_priv.h"
 #include "hardware/structs/rosc.h"
 #include "env.h"
-
+#include "inc/ssd1306.h" 
+#include "hardware/i2c.h"
 /* MACROS PI PICO */
 #define BUTTON5_PIN 5
 #define BUTTON6_PIN 6
@@ -32,6 +33,10 @@
 // Adicionado para depuração e tamanho do buffer
 #define DEBUG_printf printf
 #define BUFFER_SIZE 256
+
+// Pinos I2C para o OLED (verificado no esquemático da BitDogLab)
+#define I2C_SDA_PIN 14
+#define I2C_SCL_PIN 15
 /* END */
 
 /*VARIAVEIS*/
@@ -51,6 +56,9 @@ typedef struct MQTT_CLIENT_T_ {
 
 // Variável global para o estado do cliente MQTT
 extern MQTT_CLIENT_T *global_mqtt_state;
+
+// Variável global para o display OLED
+extern ssd1306_t disp;
 /* END */
 
 /* FUNÇOES */
@@ -67,4 +75,8 @@ void pwm_led(uint gpio_pin, uint brilho);
 
 // Declarado aqui para ser acessível globalmente
 void mqtt_pub_request_cb(void *arg, err_t err);
+
+// Funções para o display OLED
+void oled_init_display();
+void oled_display_send(const char *message);
 /* END */
